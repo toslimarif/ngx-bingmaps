@@ -99,6 +99,42 @@
           }
         }
       }
+    },
+    "ngx-bingmaps": {
+      "projectType": "library",
+      "root": "projects/ngx-bingmaps",
+      "sourceRoot": "projects/ngx-bingmaps/src",
+      "prefix": "lib",
+      "architect": {
+        "build": {
+          "builder": "@angular-devkit/build-angular:ng-packagr",
+          "options": {
+            "project": "projects/ngx-bingmaps/ng-package.json"
+          },
+          "configurations": {
+            "production": {
+              "tsConfig": "projects/ngx-bingmaps/tsconfig.lib.prod.json"
+            },
+            "development": {
+              "tsConfig": "projects/ngx-bingmaps/tsconfig.lib.json"
+            }
+          },
+          "defaultConfiguration": "production"
+        },
+        "test": {
+          "builder": "@angular-devkit/build-angular:karma",
+          "options": {
+            "tsConfig": "projects/ngx-bingmaps/tsconfig.spec.json",
+            "polyfills": [
+              "zone.js",
+              "zone.js/testing"
+            ]
+          }
+        }
+      }
     }
+  },
+  "cli": {
+    "analytics": false
   }
 }
