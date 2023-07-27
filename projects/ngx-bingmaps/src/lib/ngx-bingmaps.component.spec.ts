@@ -8,9 +8,8 @@ describe('NgxBingmapsComponent', () => {
 
   beforeEach(async () => {
     await TestBed.configureTestingModule({
-      declarations: [ NgxBingmapsComponent ]
-    })
-    .compileComponents();
+      declarations: [NgxBingmapsComponent],
+    }).compileComponents();
 
     fixture = TestBed.createComponent(NgxBingmapsComponent);
     component = fixture.componentInstance;
