@@ -1,8 +1,9 @@
 # Bing Maps - Angular
 
-**ngx-bingmaps** is a simple and modular library for displaying Bing Maps inside an angular application. The library uses official [Bing Maps V8 Web Control](
-https://learn.microsoft.com/en-us/bingmaps/v8-web-control/?redirectedfrom=MSDN) SDK as a dependency.
+This is a simple and modular library for displaying Bing Maps inside an angular application.
 
+This lightweight library uses official [Bing Maps V8 Web Control](
+https://learn.microsoft.com/en-us/bingmaps/v8-web-control/?redirectedfrom=MSDN) SDK as a dependency, and helps reduce the pain of using the Bing Maps in your Angular Projects.  
 
 
 ## Table of Contents
