@@ -1,6 +1,22 @@
 {
   "name": "ngx-bingmaps",
-  "version": "0.0.3",
+  "version": "0.0.4",
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/toslimarif/ngx-bingmaps.git"
+  },
+  "keywords": [
+    "bing",
+    "maps",
+    "bingmaps",
+    "bing maps",
+    "ng maps",
+    "angular maps",
+    "ng bingmaps",
+    "angular bingmaps"
+  ],
+  "author": "Toslim Arif",
+  "license": "MIT",
   "peerDependencies": {
     "@angular/common": "^15.2.0",
     "@angular/core": "^15.2.0"
