@@ -1,24 +1,27 @@
-# NgxBingmaps
+# Bing Maps - Angular
 
-This library was generated with [Angular CLI](https://github.com/angular/angular-cli) version 15.2.0.
+**ngx-bingmaps** is a simple and modular library for displaying Bing Maps inside an angular application. The library uses official [Bing Maps V8 Web Control](
+https://learn.microsoft.com/en-us/bingmaps/v8-web-control/?redirectedfrom=MSDN) SDK as a dependency.
 
-## Code scaffolding
 
-Run `ng generate component component-name --project ngx-bingmaps` to generate a new component. You can also use `ng generate directive|pipe|service|class|guard|interface|enum|module --project ngx-bingmaps`.
-> Note: Don't forget to add `--project ngx-bingmaps` or else it will be added to the default project in your `angular.json` file. 
 
-## Build
+## Table of Contents
 
-Run `ng build ngx-bingmaps` to build the project. The build artifacts will be stored in the `dist/` directory.
+- [Bing Maps - Angular](#bing-maps---angular)
+  - [Prerequisites](#prerequisites)
+  - [Installation](#installation)
+  - [Usage](#usage)
+  - [Props](#props)
+  - [Examples](#examples)
 
-## Publishing
 
-After building your library with `ng build ngx-bingmaps`, go to the dist folder `cd dist/ngx-bingmaps` and run `npm publish`.
+## Prerequisites
 
-## Running unit tests
+A Bing Maps API key is required to take full advantage of this library. You can obtain a free API key for test/development purpose from the [Bing Maps Dev Center](https://www.bingmapsportal.com).
 
-Run `ng test ngx-bingmaps` to execute the unit tests via [Karma](https://karma-runner.github.io).
+## Installation
 
-## Further help
-
-To get more help on the Angular CLI use `ng help` or go check out the [Angular CLI Overview and Command Reference](https://angular.io/cli) page.
+`npm` is the easiest and fastest way to get started using `ngx-bingmaps`
+```
+npm install ngx-bingmaps --save
+```
