@@ -1,12 +1,18 @@
 {
   "name": "@uikits/ngx-bingmaps",
-  "version": "0.0.0",
+  "version": "0.0.1",
   "scripts": {
     "ng": "ng",
     "start": "ng serve",
     "build": "ng build",
+    "build:lib": "ng build ngx-bingmaps",
     "watch": "ng build --watch --configuration development",
-    "test": "ng test"
+    "test": "ng test",
+    "test:lib": "ng test ngx-bingmaps",
+    "lint": "ng lint",
+    "lint:lib": "ng lint ngx-bingmaps",
+    "format": "npx prettier 'src/**/*.{js,jsx,ts,tsx,html,css,scss}' --write",
+    "format:lib": "npx prettier 'projects/**/*.{js,jsx,ts,tsx,html,css,scss}' --write"
   },
   "private": true,
   "dependencies": {
@@ -34,6 +40,7 @@
     "karma-jasmine": "~5.1.0",
     "karma-jasmine-html-reporter": "~2.0.0",
     "ng-packagr": "^15.2.2",
+    "prettier": "^3.0.0",
     "typescript": "~4.9.4"
   }
 }
