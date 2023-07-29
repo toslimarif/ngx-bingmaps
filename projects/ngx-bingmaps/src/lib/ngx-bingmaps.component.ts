@@ -1,13 +1,7 @@
-import {
-  Component,
-  ElementRef,
-  Input,
-  OnChanges,
-  SimpleChanges,
-  ViewChild,
-} from '@angular/core';
-import { GeoLocModel } from './ngx-bingmaps.model';
+import { Component, ElementRef, Input, ViewChild } from '@angular/core';
+import { PushpinModel, PushpinOptionsModel } from './ngx-bingmaps.models';
 import { NgxBingmapsService } from './ngx-bingmaps.service';
+
 declare const Microsoft: any;
 
 @Component({
@@ -18,43 +12,71 @@ declare const Microsoft: any;
       .map-container {
         width: 100%;
         height: 100%;
-        min-height: 200px;
+        min-height: 250px;
       }
     `,
   ],
 })
-export class NgxBingmapsComponent implements OnChanges {
+export class NgxBingmapsComponent {
   @ViewChild('myMap') mapViewChild: ElementRef | undefined;
-  @Input() geoLoc: GeoLocModel | undefined;
+  // Bing API key
   @Input() apiKey: string | undefined;
-  myMap: any;
+
+  @Input() hideRoadLabels: boolean = false;
+  @Input() mapType: 'road' | 'aerial' | 'birdseye' = 'road';
+  @Input() navigationBarMode: 'compact' | 'square' = 'square';
+  @Input() set pushpins(pushpins: PushpinModel[]) {
+    this.initMap(pushpins);
+  }
+  @Input() pushpinOptions: PushpinOptionsModel = {
+    enableHoverStyle: true,
+    enableClickedStyle: true,
+  };
+
   constructor(private bingMap: NgxBingmapsService) {}
 
-  ngOnChanges(changes: SimpleChanges) {
-    if (changes['geoLoc']?.currentValue) {
-      this.bingMap.load().then(() => {
-        this.setMapView(changes['geoLoc'].currentValue);
-      });
-    }
+  initMap(pushpins: PushpinModel[]) {
+    this.bingMap.load().then(() => {
+      const map = this.getMap();
+      this.setMapView(map, pushpins);
+    });
   }
-  setMapView(data: GeoLocModel) {
-    const navigationBarMode = Microsoft.Maps.NavigationBarMode;
-    this.myMap = new Microsoft.Maps.Map(this.mapViewChild?.nativeElement, {
+
+  getMap() {
+    return new Microsoft.Maps.Map(this.mapViewChild?.nativeElement, {
       credentials: this.apiKey,
-      navigationBarMode: navigationBarMode.compact,
+      navigationBarMode:
+        Microsoft.Maps.NavigationBarMode[this.navigationBarMode],
       supportedMapTypes: [
         Microsoft.Maps.MapTypeId.road,
         Microsoft.Maps.MapTypeId.aerial,
+        Microsoft.Maps.MapTypeId.birdseye,
       ],
     });
-    this.myMap.setView({
-      mapTypeId: Microsoft.Maps.MapTypeId.aerial,
-      center: new Microsoft.Maps.Location(data.latitude, data.longitude),
-    });
-    const center = this.myMap.getCenter();
-    const pushpin = new Microsoft.Maps.Pushpin(center);
+  }
 
-    this.myMap.entities.push(pushpin);
-    pushpin.setOptions({ enableHoverStyle: true, enableClickedStyle: true });
+  addPushpins(
+    map: any,
+    pushpins: PushpinModel[],
+    options: PushpinOptionsModel,
+  ) {
+    // Clear all existing pushpins
+    for (let pushpin of pushpins) {
+      const pushpinOnMap = new Microsoft.Maps.Pushpin(pushpin.location);
+      pushpinOnMap.setOptions(pushpin.options);
+      map.entities.push(pushpinOnMap);
+    }
+  }
+
+  setMapView(map: any, pushpins: PushpinModel[]) {
+    this.addPushpins(map, pushpins, this.pushpinOptions);
+    const options: any = {};
+    if (this.mapType) {
+      options.mapTypeId = Microsoft.Maps.MapTypeId[this.mapType];
+    }
+    if (this.hideRoadLabels) {
+      options.labelOverlay = Microsoft.Maps.LabelOverlay.hidden;
+    }
+    map.setView(options);
   }
 }
