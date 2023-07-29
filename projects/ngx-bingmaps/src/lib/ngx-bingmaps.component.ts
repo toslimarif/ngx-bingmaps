@@ -1,12 +1,20 @@
-import { Component, ElementRef, Input, ViewChild } from '@angular/core';
-import { PushpinModel, PushpinOptionsModel } from './ngx-bingmaps.models';
+import {
+  Component,
+  ElementRef,
+  Input,
+  OnChanges,
+  SimpleChanges,
+  ViewChild,
+} from '@angular/core';
+import { PushpinModel } from './ngx-bingmaps.models';
 import { NgxBingmapsService } from './ngx-bingmaps.service';
+import { MapTypes, NavigationBarModes } from './ngx-bingmaps.types';
 
 declare const Microsoft: any;
 
 @Component({
   selector: 'ngx-bingmaps',
-  template: `<div #myMap class="map-container"></div>`,
+  template: `<div #ngxBingMaps class="map-container"></div>`,
   styles: [
     `
       .map-container {
@@ -17,29 +25,33 @@ declare const Microsoft: any;
     `,
   ],
 })
-export class NgxBingmapsComponent {
-  @ViewChild('myMap') mapViewChild: ElementRef | undefined;
+export class NgxBingmapsComponent implements OnChanges {
+  @ViewChild('ngxBingMaps') mapViewChild: ElementRef | undefined;
   // Bing API key
   @Input() apiKey: string | undefined;
+  @Input() mapType: keyof typeof MapTypes = 'road';
+  @Input() navigationBarMode: keyof typeof NavigationBarModes = 'square';
+  @Input() pushpins: PushpinModel[] = [];
 
-  @Input() hideRoadLabels: boolean = false;
-  @Input() mapType: 'road' | 'aerial' | 'birdseye' = 'road';
-  @Input() navigationBarMode: 'compact' | 'square' = 'square';
-  @Input() set pushpins(pushpins: PushpinModel[]) {
-    this.initMap(pushpins);
-  }
-  @Input() pushpinOptions: PushpinOptionsModel = {
-    enableHoverStyle: true,
-    enableClickedStyle: true,
-  };
+  isMapReady: boolean = false;
 
   constructor(private bingMap: NgxBingmapsService) {}
 
-  initMap(pushpins: PushpinModel[]) {
-    this.bingMap.load().then(() => {
-      const map = this.getMap();
-      this.setMapView(map, pushpins);
-    });
+  ngOnChanges(changes: SimpleChanges) {
+    if (changes) {
+      // If the Map is Already Loaded then just Reinitialize it
+      if (this.isMapReady) return this.initMap();
+      // Otherwise Load the map and Reinitialize it
+      this.bingMap.load().then(() => {
+        this.isMapReady = true;
+        this.initMap();
+      });
+    }
+  }
+
+  initMap() {
+    const map = this.getMap();
+    this.setMapView(map, this.pushpins);
   }
 
   getMap() {
@@ -55,11 +67,7 @@ export class NgxBingmapsComponent {
     });
   }
 
-  addPushpins(
-    map: any,
-    pushpins: PushpinModel[],
-    options: PushpinOptionsModel,
-  ) {
+  addPushpins(map: any, pushpins: PushpinModel[]) {
     // Clear all existing pushpins
     for (let pushpin of pushpins) {
       const pushpinOnMap = new Microsoft.Maps.Pushpin(pushpin.location);
@@ -69,14 +77,11 @@ export class NgxBingmapsComponent {
   }
 
   setMapView(map: any, pushpins: PushpinModel[]) {
-    this.addPushpins(map, pushpins, this.pushpinOptions);
+    // Add the Pushpins if there is
+    this.addPushpins(map, pushpins);
+    // Set up the Map Options
     const options: any = {};
-    if (this.mapType) {
-      options.mapTypeId = Microsoft.Maps.MapTypeId[this.mapType];
-    }
-    if (this.hideRoadLabels) {
-      options.labelOverlay = Microsoft.Maps.LabelOverlay.hidden;
-    }
+    options.mapTypeId = Microsoft.Maps.MapTypeId[this.mapType];
     map.setView(options);
   }
 }
