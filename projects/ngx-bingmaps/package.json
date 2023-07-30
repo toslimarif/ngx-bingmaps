@@ -3,6 +3,7 @@
   "version": "0.0.8",
   "description": "A simple and modular library for displaying Bing Maps inside an angular application.",
   "license": "MIT",
+  "homepage": "https://toslimarif.github.io/ngx-bingmaps/",
   "author": {
     "name": "Toslim Arif",
     "email": "ariftoslim@gmail.com"

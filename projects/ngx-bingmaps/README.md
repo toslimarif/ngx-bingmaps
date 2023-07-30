@@ -4,7 +4,7 @@ A simple and modular library for displaying Bing Maps inside an angular applicat
 
 The library is designed to be lightweight, relying on the official [Bing Maps V8 Web Control](https://learn.microsoft.com/en-us/bingmaps/v8-web-control/?redirectedfrom=MSDN) SDK as a dependency. Its purpose is to alleviate the challenges of integrating Bing Maps into your Angular Projects.
 
-Head to the [PlayGround](https://toslimarif.com/projects/ngx-bingmaps/playground) for a brief demonstration of the capabilities of `ngx-bingmaps`.
+Head to the [PlayGround](https://toslimarif.github.io/ngx-bingmaps/) for a brief demonstration of the capabilities of `ngx-bingmaps`.
 
 ## Table of Contents
 
