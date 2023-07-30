@@ -70,8 +70,7 @@ export class NgxBingmapsComponent implements OnChanges {
   addPushpins(map: any, pushpins: PushpinModel[]) {
     // Clear all existing pushpins
     for (let pushpin of pushpins) {
-      const pushpinOnMap = new Microsoft.Maps.Pushpin(pushpin.location);
-      pushpinOnMap.setOptions(pushpin.options);
+      const pushpinOnMap = new Microsoft.Maps.Pushpin(pushpin.location, pushpin.options);
       map.entities.push(pushpinOnMap);
     }
   }
