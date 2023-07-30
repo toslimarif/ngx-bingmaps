@@ -67,19 +67,21 @@ export class NgxBingmapsComponent implements OnChanges {
     });
   }
 
-  addPushpins(map: any, pushpins: PushpinModel[]) {
-    // Clear all existing pushpins
-    for (let pushpin of pushpins) {
-      const pushpinOnMap = new Microsoft.Maps.Pushpin(pushpin.location, pushpin.options);
-      map.entities.push(pushpinOnMap);
-    }
-  }
-
   setMapView(map: any, pushpins: PushpinModel[]) {
-    // Add the Pushpins if there is
-    this.addPushpins(map, pushpins);
     // Set up the Map Options
     const options: any = {};
+    // Add the Pushpins
+    if (pushpins && pushpins.length) {
+      const pinsOnMap = pushpins.map(
+        (pushpin) =>
+          new Microsoft.Maps.Pushpin(pushpin.location, pushpin.options),
+      );
+      map.entities.push(pinsOnMap);
+      // Get the bound for best
+      options.bounds = Microsoft.Maps.LocationRect.fromLocations(
+        pushpins.map((pin) => pin.location),
+      );
+    }
     options.mapTypeId = Microsoft.Maps.MapTypeId[this.mapType];
     map.setView(options);
   }
