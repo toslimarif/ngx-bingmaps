@@ -21,8 +21,7 @@ export class AppComponent {
   pushpinsForm: FormGroup;
 
   constructor(private formBuilder: FormBuilder) {
-    this.apiKey =
-      'AhRPM1nxK3YYAoTzyJF8821kmdjPe3oVF8ORbtYsp3nMq6jXJ-aQTPb7Ndi2sW8I';
+    this.apiKey = 'YOUR_API_KEY';
     this.mapType = 'road';
     this.navigationBarMode = 'square';
     this.pushpins = [];
