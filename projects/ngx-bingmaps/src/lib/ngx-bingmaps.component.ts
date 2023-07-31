@@ -76,6 +76,29 @@ export class NgxBingmapsComponent implements OnChanges {
         (pushpin) =>
           new Microsoft.Maps.Pushpin(pushpin.location, pushpin.options),
       );
+      // Infobox and it's click handler
+      pushpins.forEach((pushpin, index) => {
+        if (pushpin.infobox) {
+          const infobox = new Microsoft.Maps.Infobox(
+            pinsOnMap[index].getLocation(),
+            pushpin.infobox,
+          );
+          infobox.setMap(map);
+          Microsoft.Maps.Events.addHandler(
+            pinsOnMap[index],
+            'click',
+            function (args: any) {
+              infobox.setOptions({
+                location: args.target.getLocation(),
+                title: pushpin.infobox?.title,
+                description: pushpin.infobox?.description,
+                visible: true,
+              });
+            },
+          );
+        }
+      });
+
       map.entities.push(pinsOnMap);
       // Get the bound for best
       options.bounds = Microsoft.Maps.LocationRect.fromLocations(
