@@ -1,1 +1,181 @@
-<ngx-bingmaps [apiKey]="apiKey" [geoLoc]="geoLoc"></ngx-bingmaps>
+<p-toolbar>
+  <div class="p-toolbar-group-start">
+    <img ngSrc="assets/logo.png" height="42" alt="TA" width="42" />
+    <h2 class="m-2">ngx-bingmaps</h2>
+  </div>
+  <div class="p-toolbar-group-end">
+    <p-button
+      label="docs"
+      icon="pi pi-external-link"
+      class="mr-2"
+      styleClass="p-button-outlined"
+      (onClick)="
+        window.open('https://github.com/toslimarif/ngx-bingmaps/wiki', '_blank')
+      "
+    ></p-button>
+    <p-button
+      icon="pi pi-github"
+      (onClick)="
+        window.open('https://github.com/toslimarif/ngx-bingmaps', '_blank')
+      "
+    ></p-button>
+  </div>
+</p-toolbar>
+
+<section class="grid pt-2">
+  <div class="col-3">
+    <p-accordion>
+      <p-accordionTab header="Map Configuration" [selected]="true">
+        <div class="mb-3">
+          <p>The following map options can be used to customize the map.</p>
+          <form [formGroup]="configForm">
+            <span class="p-float-label mb-3">
+              <p-dropdown
+                id="mapTypeDropdown"
+                formControlName="mapType"
+                [options]="mapTypes"
+                placeholder="Map Type"
+                inputId="float-label"
+              ></p-dropdown>
+              <label for="mapTypeDropdown">Map Type</label>
+            </span>
+            <span class="p-float-label mb-3">
+              <p-dropdown
+                id="navigationBarModeDropdown"
+                formControlName="navigationBarMode"
+                [options]="navigationBarModes"
+                placeholder="Navigation Bar Mode"
+                inputId="float-label"
+              ></p-dropdown>
+              <label for="navigationBarModeDropdown">Navigation Bar Mode</label>
+            </span>
+          </form>
+          <p-button
+            label="Apply"
+            [disabled]="!configForm.valid"
+            (onClick)="onConfigChange()"
+          ></p-button>
+        </div>
+      </p-accordionTab>
+      <p-accordionTab header="Pushpins Playground">
+        <div class="mb-3">
+          <p>
+            Pushpins or markers are one of the primary ways of marking a
+            location on a map.
+          </p>
+          <div class="card flex align-items-center gap-2 flex-wrap mb-3">
+            <p-chip
+              *ngFor="let pushpin of pushpins"
+              label="{{ pushpin.location.latitude }}, {{
+                pushpin.location.longitude
+              }}"
+            ></p-chip>
+            <p-chip
+              *ngIf="pushpins.length"
+              label="Clear"
+              [removable]="true"
+              class="cursor-pointer"
+              (click)="pushpins = []"
+            ></p-chip>
+          </div>
+
+          <form [formGroup]="pushpinsForm" class="mb-3">
+            <div formGroupName="location">
+              <div class="grid">
+                <div class="col-6">
+                  <span class="p-float-label">
+                    <input
+                      class="w-full"
+                      pInputText
+                      type="number"
+                      name="latitude"
+                      id="latitudeInput"
+                      formControlName="latitude"
+                      required
+                    />
+                    <label for="latitudeInput">Latitude</label>
+                  </span>
+                </div>
+                <div class="col-6">
+                  <span class="p-float-label">
+                    <input
+                      class="w-full"
+                      pInputText
+                      type="number"
+                      name="longitude"
+                      id="longitudeInput"
+                      formControlName="longitude"
+                      required
+                    />
+                    <label for="longitudeInput">Longitude</label>
+                  </span>
+                </div>
+              </div>
+            </div>
+            <p-fieldset legend="Options" [toggleable]="true" [collapsed]="true">
+              <div formGroupName="options">
+                <div class="grid">
+                  <div class="col-3">
+                    <span class="p-float-label">
+                      <input
+                        class="w-full"
+                        pInputText
+                        type="text"
+                        name="latitude"
+                        max="2"
+                        id="textInput"
+                        formControlName="text"
+                      />
+                      <label for="textInput">Label</label>
+                    </span>
+                  </div>
+                  <div class="col-9">
+                    <span class="p-float-label">
+                      <input
+                        class="w-full"
+                        pInputText
+                        type="text"
+                        name="label"
+                        id="titleInput"
+                        formControlName="title"
+                      />
+                      <label for="titleInput">Title</label>
+                    </span>
+                  </div>
+                  <div class="col-12">
+                    <span class="p-float-label">
+                      <input
+                        class="w-full"
+                        pInputText
+                        type="text"
+                        name="subTitle"
+                        id="subTitleInput"
+                        formControlName="subTitle"
+                      />
+                      <label for="subTitleInput">SubTitle</label>
+                    </span>
+                  </div>
+                </div>
+              </div>
+            </p-fieldset>
+          </form>
+          <p-button
+            label="Add Pushpin"
+            [disabled]="!pushpinsForm.valid"
+            (onClick)="onAddPushpin()"
+          ></p-button>
+        </div>
+      </p-accordionTab>
+    </p-accordion>
+  </div>
+  <div class="col-9">
+    <div class="map-container">
+      <ngx-bingmaps
+        [apiKey]="apiKey"
+        [pushpins]="pushpins"
+        [mapType]="mapType"
+        [navigationBarMode]="navigationBarMode"
+      ></ngx-bingmaps>
+    </div>
+  </div>
+</section>

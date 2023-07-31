@@ -5,6 +5,7 @@
     "ng": "ng",
     "start": "ng serve",
     "build": "ng build",
+    "build:git": "ng build --base-href /ngx-bingmaps/",
     "build:lib": "ng build ngx-bingmaps",
     "watch": "ng build --watch --configuration development",
     "test": "ng test",
