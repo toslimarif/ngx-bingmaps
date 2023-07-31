@@ -22,8 +22,8 @@
   </div>
 </p-toolbar>
 
-<section class="grid pt-2">
-  <div class="col-3">
+<section class="grid p-2">
+  <div class="lg:col-3 md:col-4 sm:col-12">
     <p-accordion>
       <p-accordionTab header="Map Configuration" [selected]="true">
         <div class="mb-3">
@@ -168,7 +168,7 @@
       </p-accordionTab>
     </p-accordion>
   </div>
-  <div class="col-9">
+  <div class="lg:col-9 md:col-8 sm:col-12">
     <div class="map-container">
       <ngx-bingmaps
         [apiKey]="apiKey"
